@@ -15,9 +15,9 @@ const App = () => {
   const exercises3 = 14
 
   const contents = [
-    { title: part1, exercises1: exercises1 },
-    { title: part2, exercises2: exercises2 },
-    { title: part3, exercises3: exercises3 }
+    { title: part1, exercises: exercises1 },
+    { title: part2, exercises: exercises2 },
+    { title: part3, exercises: exercises3 }
   ]
 
   const num_ex_label = `Number of exercises ${exercises1 + exercises2 + exercises3}`

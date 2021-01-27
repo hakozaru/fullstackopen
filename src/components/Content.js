@@ -1,17 +1,13 @@
 import React from 'react'
+import Part from './Part'
 
 const Content = (props) => {
-  const elm = props.contents.map((content, i) => {
-    const humanIndex = i + 1
-    return(
-      <p key={`part${humanIndex}`}>
-        {content.title} {content[`exercises${humanIndex}`]}
-      </p>
-    )
+  const elm = props.contents.map((content) => {
+    return(<Part content={content} key={content.title} />)
   })
 
   return(
-    <>{ elm }</>
+    <>{elm}</>
   )
 }
 
