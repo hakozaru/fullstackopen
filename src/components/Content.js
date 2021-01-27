@@ -2,7 +2,7 @@ import React from 'react'
 import Part from './Part'
 
 const Content = (props) => {
-  const elm = props.parts.map((part) => {
+  const elm = props.course.parts.map((part) => {
     return(<Part part={part} key={part.name} />)
   })
 
