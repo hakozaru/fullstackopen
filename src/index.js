@@ -7,26 +7,26 @@ import Total from './components/Total'
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
-
-  const contents = [
-    { title: part1, exercises: exercises1 },
-    { title: part2, exercises: exercises2 },
-    { title: part3, exercises: exercises3 }
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
   ]
-
-  const num_ex_label = `Number of exercises ${exercises1 + exercises2 + exercises3}`
 
   return (
     <div>
       <Header course={course} />
-      <Content contents={contents} />
-      <Total label={num_ex_label} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
