@@ -1,49 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import Courses from './components/Courses'
 
 const App = () => {
-  const courses = [
-    {
-      id: 1,
-      name: 'Half Stack application development',
-      parts: [
-        {
-          name: 'Fundamentals of React',
-          exercises: 10,
-          id: 1
-        },
-        {
-          name: 'Using props to pass data',
-          exercises: 7,
-          id: 2
-        },
-        {
-          name: 'State of a component',
-          exercises: 14,
-          id: 3
-        }
-      ]
-    },
-    {
-      name: 'Node.js',
-      id: 2,
-      parts: [
-        {
-          name: 'Routing',
-          exercises: 3,
-          id: 1
-        },
-        {
-          name: 'Middlewares',
-          exercises: 7,
-          id: 2
-        }
-      ]
-    }
-  ]
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas' }
+  ])
+  const [ newName, setNewName ] = useState('')
 
-  return <Courses courses={courses} />
+  const addNewPerson = (e) => {
+    e.preventDefault()
+    setPersons(persons.concat({ name: newName }))
+    setNewName('')
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <form onSubmit={addNewPerson}>
+        <div>
+          name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
+        </div>
+        <div>
+          <button type="submit">add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      {persons.map((p) => {
+        return(
+          <div key={p.name}>{p.name}</div>
+        )
+      })}
+    </div>
+  )
 }
 
 ReactDOM.render(
