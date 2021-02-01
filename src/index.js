@@ -7,6 +7,8 @@ const App = () => {
   ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ searchName, setSearchName ] = useState('')
+  const [ searchResult, setSearchResult ] = useState([])
 
   const addNewPerson = (e) => {
     e.preventDefault()
@@ -24,9 +26,27 @@ const App = () => {
     }
   }
 
+  const runSearch = (e) => {
+    e.preventDefault()
+    if(!searchName) return
+
+    const found = persons.filter(person => person.name.match(new RegExp(searchName, 'i')))
+    if(found) setSearchResult(found)
+    setSearchName('')
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <form onSubmit={runSearch}>
+        <div>
+          filter shown with <input value={searchName} onChange={(e) => setSearchName(e.target.value)} />
+        </div>
+        <div>
+          <button type="submit">search</button>
+        </div>
+      </form>
+      {searchResult.map(r => <div key={r.name}>{r.name} {r.number}</div>)}
       <form onSubmit={addNewPerson}>
         <div>
           name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
