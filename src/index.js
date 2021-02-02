@@ -13,13 +13,16 @@ const App = () => {
     })
   }, [])
 
-  const runSearch = (e) => {
-    e.preventDefault()
+  useEffect(() => runSearch(), [inputCountryName])
+
+  const runSearch = () => {
     const result = allCountries.filter(country => {
       return country.name.match(new RegExp(inputCountryName, 'i'))
     })
     setSearchResult(result)
   }
+
+  const displayCountry = (name) => setInputCountryName(name)
 
   const displaySearchResult = () => {
     const results = searchResult.length
@@ -47,7 +50,12 @@ const App = () => {
     } else if(results <= 10) {
       return(
         searchResult.map(r => {
-          return(<div key={r.name}>{r.name}</div>)
+          return(
+            <div key={r.name}>
+              {r.name}
+              <button onClick={() => displayCountry(r.name)}>show</button>
+            </div>
+          )
         })
       )
     }
@@ -56,12 +64,10 @@ const App = () => {
   return(
     <div>
       find countries
-      <form onSubmit={runSearch}>
-        <input
-          value={inputCountryName}
-          onChange={(e) => setInputCountryName(e.target.value)}
-        />
-      </form>
+      <input
+        value={inputCountryName}
+        onChange={(e) => setInputCountryName(e.target.value)}
+      />
       {displaySearchResult()}
     </div>
   )
