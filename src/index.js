@@ -35,6 +35,9 @@ const App = () => {
         return(<li key={lan.name}>{lan.name}</li>)
       })
 
+      // 適当にこの辺でapi叩いて、thenの中でJSX返せばよさそう
+      // apiキー取得とか面倒なので2-14はパス
+
       return(
         <>
           <h2>{countryInfo.name}</h2>
@@ -43,6 +46,7 @@ const App = () => {
           <h2>languages</h2>
           <ul>{langs}</ul>
           <img src={countryInfo.flag} width="250px" />
+          <h2>Weather in {countryInfo.name}</h2>
         </>
       )
     } else if(results > 10) {
