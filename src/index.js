@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
+
+import { getAllPerson } from "./services/persons"
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -14,9 +15,7 @@ const App = () => {
   const [ searchResult, setSearchResult ] = useState([])
 
   useEffect(() => {
-    axios.get("http://localhost:3002/persons").then(res => {
-      setPersons(res.data)
-    })
+    getAllPerson().then(res => setPersons(res))
   }, [])
 
   return (
