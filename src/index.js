@@ -1,81 +1,46 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
+
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
-  const [inputCountryName, setInputCountryName] = useState("")
-  const [allCountries, setAllCountries] = useState([])
-  const [searchResult, setSearchResult] = useState([])
+  const [ persons, setPersons ] = useState([
+    { name: 'Arto Hellas', number: '040-1234567' }
+  ])
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchName, setSearchName ] = useState('')
+  const [ searchResult, setSearchResult ] = useState([])
 
-  useEffect(() => {
-    axios.get("https://restcountries.eu/rest/v2/all").then(res => {
-      setAllCountries(res.data)
-    })
-  }, [])
-
-  useEffect(() => runSearch(), [inputCountryName])
-
-  const runSearch = () => {
-    const result = allCountries.filter(country => {
-      return country.name.match(new RegExp(inputCountryName, 'i'))
-    })
-    setSearchResult(result)
-  }
-
-  const displayCountry = (name) => setInputCountryName(name)
-
-  const displaySearchResult = () => {
-    const results = searchResult.length
-
-    if(results === 0) {
-      return(<div>prease fill in country name.</div>)
-    } else if(results === 1) {
-      const countryInfo = searchResult[0]
-      const langs = countryInfo.languages.map(lan => {
-        return(<li key={lan.name}>{lan.name}</li>)
-      })
-
-      // 適当にこの辺でapi叩いて、thenの中でJSX返せばよさそう
-      // apiキー取得とか面倒なので2-14はパス
-
-      return(
-        <>
-          <h2>{countryInfo.name}</h2>
-          <div>capital {countryInfo.capital}</div>
-          <div>population {countryInfo.population}</div>
-          <h2>languages</h2>
-          <ul>{langs}</ul>
-          <img src={countryInfo.flag} width="250px" />
-          <h2>Weather in {countryInfo.name}</h2>
-        </>
-      )
-    } else if(results > 10) {
-      return(<div>Too many matches, specify another filter.</div>)
-    } else if(results <= 10) {
-      return(
-        searchResult.map(r => {
-          return(
-            <div key={r.name}>
-              {r.name}
-              <button onClick={() => displayCountry(r.name)}>show</button>
-            </div>
-          )
-        })
-      )
-    }
-  }
-
-  return(
+  return (
     <div>
-      find countries
-      <input
-        value={inputCountryName}
-        onChange={(e) => setInputCountryName(e.target.value)}
+      <h2>Phonebook</h2>
+      <Filter
+        searchName={searchName}
+        setSearchName={setSearchName}
+        searchResult={searchResult}
+        setSearchResult={setSearchResult}
+        persons={persons}
       />
-      {displaySearchResult()}
+      <h3>Add a new</h3>
+      <PersonForm
+        persons={persons}
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+        setPersons={setPersons}
+      />
+      <h3>Numbers</h3>
+      <Persons
+        persons={persons}
+      />
     </div>
   )
 }
+
 
 ReactDOM.render(
   <App />,
