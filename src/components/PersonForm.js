@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { createPerson, updatePerson } from "../services/persons"
+import FlashMessage from './FlashMessage'
 
 const PersonForm = (props) => {
+  const defaultFlashObj = { message: null, error: false }
+  const [flashMsg, setFlashMsg] = useState(defaultFlashObj)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFlashMsg(defaultFlashObj)
+    }, 5000)
+  }, [flashMsg])
+
   const {
     newName,
     setNewName,
@@ -27,7 +37,10 @@ const PersonForm = (props) => {
         .then(res => {
           setPersons(persons.map(person => person.id !== res.id ? person : res))
           resetPersonInfoInputs()
-          alert("update successful.")
+          setFlashMsg({
+            message: `Update successful.`,
+            error: false
+          })
         })
         .catch(_ => alert("update failure."))
       }
@@ -42,12 +55,23 @@ const PersonForm = (props) => {
       createPerson(newPerson).then((res) => {
         setPersons(persons.concat(res))
         resetPersonInfoInputs()
+        setFlashMsg({
+          message: `Added ${newPerson.name}`,
+          error: false
+        })
+      })
+      .catch(_ => {
+        setFlashMsg({
+          message: `Error!: New person create failure.`,
+          error: true
+        })
       })
     }
   }
 
   return(
     <>
+      <FlashMessage flashMessage={flashMsg} />
       <form onSubmit={addNewPerson}>
         <div>
           name: <input value={newName} onChange={(e) => setNewName(e.target.value)} />
