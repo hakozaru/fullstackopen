@@ -42,7 +42,12 @@ const PersonForm = (props) => {
             error: false
           })
         })
-        .catch(_ => alert("update failure."))
+        .catch(res => {
+          setFlashMsg({
+            message: res.response.data.error,
+            error: true
+          })
+        })
       }
     } else {
       const newId = persons.length + 1
@@ -60,9 +65,9 @@ const PersonForm = (props) => {
           error: false
         })
       })
-      .catch(_ => {
+      .catch(res => {
         setFlashMsg({
-          message: `Error!: New person create failure.`,
+          message: res.response.data.error,
           error: true
         })
       })
